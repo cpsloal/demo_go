@@ -15,9 +15,8 @@ import (
 	"fmt"
 	"html"
 	"log"
-	"net/http"
 	"math/rand"
-	"github.com/rs/cors"
+	"net/http"
 	"os"
 	"runtime/debug"
 	"strings"
@@ -52,16 +51,8 @@ func main() {
 	http.HandleFunc("/version", version)
 	http.HandleFunc("/dadjoke", dadjoke)
 
-	// Configure CORS to allow any origin and path
-	c := cors.New(cors.Options{
-		AllowedOrigins: []string{"*"},
-		AllowedMethods: []string{"GET", "POST", "PUT", "DELETE", "OPTIONS"},
-		AllowCredentials: true,
-	})
-	
-	handler := c.Handler(http.DefaultServeMux)
-	log.Printf("serving http://%s\n", *addr)
-	log.Fatal(http.ListenAndServe(*addr, handler))
+	log.Printf("serving http://%s", *addr)
+	log.Fatal(http.ListenAndServe(*addr, nil))
 }
 
 func version(w http.ResponseWriter, r *http.Request) {
